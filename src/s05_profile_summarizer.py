@@ -181,7 +181,6 @@ def main():
     ARTIFACTS_PATH = args.artifacts_path
     ACCEPTABLE_DEVIATION = args.acceptable_deviation
     DB_PROFILE_SLA_TABLENAME = args.db_profile_sla_tablename
-
     DB_HOSTNAME = os.getenv("DB_HOST")
     DB_PORT = os.getenv("DB_PORT")
     DB_USER = os.getenv("DB_USER")
