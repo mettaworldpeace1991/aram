@@ -170,9 +170,6 @@ def main():
     parser.add_argument(
         "--db_profile_sla_tablename", type=str, default="load_profile", help="The name of the table with profile SLA"
     )
-    parser.add_argument(
-        "--db_credentials", type=str, help="Credentials to access to DB"
-    )
     args = parser.parse_args()
 
     RESULTS_PATH = args.results_file_path
@@ -181,7 +178,6 @@ def main():
     ARTIFACTS_PATH = args.artifacts_path
     ACCEPTABLE_DEVIATION = args.acceptable_deviation
     DB_PROFILE_SLA_TABLENAME = args.db_profile_sla_tablename
-
     DB_HOSTNAME = os.getenv("DB_HOST")
     DB_PORT = os.getenv("DB_PORT")
     DB_USER = os.getenv("DB_USER")

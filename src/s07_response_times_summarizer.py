@@ -135,9 +135,6 @@ def main():
     parser.add_argument(
         "--db_response_times_sla_tablename", type=str, default="response_times", help="The name of the table with response times SLA"
     )
-    parser.add_argument(
-        "--db_credentials", type=str, help="Credentials to access to DB"
-    )
     args = parser.parse_args()
 
     RESULTS_PATH = args.results_file_path
@@ -145,7 +142,6 @@ def main():
     RESPONSE_TIMES_FEATHER = args.response_times_dataframe_path
     ACCEPTABLE_DEVIATION = args.acceptable_deviation
     DB_RESPONSE_TIMES_SLA_TABLENAME = args.db_response_times_sla_tablename
-
     DB_HOSTNAME = os.getenv("DB_HOST")
     DB_PORT = os.getenv("DB_PORT")
     DB_USER = os.getenv("DB_USER")
