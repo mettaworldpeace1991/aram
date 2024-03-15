@@ -115,12 +115,6 @@ def main():
         help="Path to the results file",
     )
     parser.add_argument(
-        "--artifacts_path",
-        type=Path,
-        default=Path("shared", "test_artifacts"),
-        help="Path to save test artifacts",
-    )
-    parser.add_argument(
         "--response_times_dataframe_path",
         type=Path,
         default=Path("resp_times.feather"),
@@ -138,7 +132,6 @@ def main():
     args = parser.parse_args()
 
     RESULTS_PATH = args.results_file_path
-    ARTIFACTS_PATH = args.artifacts_path
     RESPONSE_TIMES_FEATHER = args.response_times_dataframe_path
     ACCEPTABLE_DEVIATION = args.acceptable_deviation
     DB_RESPONSE_TIMES_SLA_TABLENAME = args.db_response_times_sla_tablename
@@ -154,9 +147,7 @@ def main():
 
     reqired_response_times_df = transform_to_dataframe(response_times_list)
 
-    input_path = os.path.join(ARTIFACTS_PATH, RESULTS_PATH)
-
-    with open(input_path, "r") as file:
+    with open(RESULTS_PATH, "r") as file:
         results = json.load(file)
 
     descriptive_analysis = results.get("descriptive_analysis")
@@ -164,12 +155,10 @@ def main():
     general_response_times_df = collect_general_dataframe(
         descriptive_analysis, reqired_response_times_df, ACCEPTABLE_DEVIATION
     )
-
-    output_path = os.path.join(ARTIFACTS_PATH, RESPONSE_TIMES_FEATHER)
-    general_response_times_df.to_feather(output_path)
+    general_response_times_df.to_feather(RESPONSE_TIMES_FEATHER)
 
     logging.info(
-        f"Response times summary data successfully saved to feather file: {output_path}"
+        f"Response times summary data successfully saved to feather file: {RESPONSE_TIMES_FEATHER}"
     )
 
 

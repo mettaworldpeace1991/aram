@@ -53,12 +53,6 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--artifacts_path",
-        type=Path,
-        default=Path("shared", "test_artifacts"),
-        help="Path to save test artifacts",
-    )
-    parser.add_argument(
         "--response_times_dataframe_path",
         type=Path,
         default=Path("resp_times.feather"),
@@ -72,20 +66,17 @@ def main():
     )
     args = parser.parse_args()
 
-    ARTIFACTS_PATH = args.artifacts_path
     RESPONSE_TIMES_FEATHER = args.response_times_dataframe_path
     REPORT_NAME = args.response_times_junit_report_file_name
 
-    input_path = os.path.join(ARTIFACTS_PATH, RESPONSE_TIMES_FEATHER)
-    data_frame = pd.read_feather(input_path)
+    data_frame = pd.read_feather(RESPONSE_TIMES_FEATHER)
     report = get_xml_report(data_frame)
 
-    output_path = os.path.join(ARTIFACTS_PATH, REPORT_NAME)
-    with open(output_path, "w") as f:
+    with open(REPORT_NAME, "w") as f:
         f.write(report)
 
     logging.info(
-        f"Response times xml-report successfully saved to feather file: {output_path}"
+        f"Response times xml-report successfully saved to feather file: {REPORT_NAME}"
     )
 
 

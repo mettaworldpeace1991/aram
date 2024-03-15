@@ -53,39 +53,30 @@ def main():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--artifacts_path",
-        type=Path,
-        default=Path("shared", "test_artifacts"),
-        help="Path to save test artifacts",
-    )
-    parser.add_argument(
         "--profile_dataframe_file_path",
         type=Path,
         default=Path("profile.feather"),
         help="Path to the profile dataframe file",
     )
     parser.add_argument(
-        "--profile_junit_report_file_name",
+        "--profile_junit_report_file_path",
         type=Path,
         default=Path("profile.xml"),
         help="Name of the profile junit report file",
     )
     args = parser.parse_args()
 
-    ARTIFACTS_PATH = args.artifacts_path
     PROFILE_FEATHER = args.profile_dataframe_file_path
-    REPORT_NAME = args.profile_junit_report_file_name
-
-    input_path = os.path.join(ARTIFACTS_PATH, PROFILE_FEATHER)
-    data_frame = pd.read_feather(input_path)
+    REPORT_PATH = args.profile_junit_report_file_path
+    
+    data_frame = pd.read_feather(PROFILE_FEATHER)
     report = get_xml_report(data_frame)
 
-    output_path = os.path.join(ARTIFACTS_PATH, REPORT_NAME)
-    with open(output_path, "w") as f:
+    with open(REPORT_PATH, "w") as f:
         f.write(report)
 
     logging.info(
-        f"Load profile xml-report successfully saved to feather file: {output_path}"
+        f"Load profile xml-report successfully saved to feather file: {REPORT_PATH}"
     )
 
 

@@ -156,12 +156,6 @@ def main():
     )
     parser.add_argument("--test_profile", type=str, help="Run's profile percentage")
     parser.add_argument(
-        "--artifacts_path",
-        type=Path,
-        default=Path("shared", "test_artifacts"),
-        help="Path to save test artifacts",
-    )
-    parser.add_argument(
         "--acceptable_deviation",
         type=float,
         default=0.02,
@@ -175,7 +169,6 @@ def main():
     RESULTS_PATH = args.results_file_path
     PROFILE_FEATHER = args.profile_dataframe_file_path
     PROFILE_PERCENTAGE = args.test_profile
-    ARTIFACTS_PATH = args.artifacts_path
     ACCEPTABLE_DEVIATION = args.acceptable_deviation
     DB_PROFILE_SLA_TABLENAME = args.db_profile_sla_tablename
     DB_HOSTNAME = os.getenv("DB_HOST")
@@ -192,9 +185,7 @@ def main():
         profile_list, PROFILE_PERCENTAGE
     )
 
-    input_path = os.path.join(ARTIFACTS_PATH, RESULTS_PATH)
-
-    with open(input_path, "r") as file:
+    with open(RESULTS_PATH, "r") as file:
         results = json.load(file)
 
     descriptive_analysis = results.get("descriptive_analysis")
@@ -203,12 +194,10 @@ def main():
     df = collect_general_dataframe(
         descriptive_analysis, profile_data_frame, impact_duration, ACCEPTABLE_DEVIATION
     )
-
-    output_path = os.path.join(ARTIFACTS_PATH, PROFILE_FEATHER)
-    df.to_feather(output_path)
+    df.to_feather(PROFILE_FEATHER)
 
     logging.info(
-        f"Load profile summary data successfully saved to feather file: {output_path}"
+        f"Load profile summary data successfully saved to feather file: {PROFILE_FEATHER}"
     )
 
 
